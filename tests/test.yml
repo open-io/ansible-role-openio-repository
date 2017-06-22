@@ -1,5 +1,6 @@
 ---
-- name: Install and configure HAproxy for OpenIO services
+
+- name: Install and configure OpenIO repository
   hosts: all
   become : true
   gather_facts: true
