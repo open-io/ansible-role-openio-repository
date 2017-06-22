@@ -1,0 +1,19 @@
+---
+- name: "Configure Backports repository for {{ ansible_distribution}} {{ ansible_distribution_release }}"
+  apt_repository:
+    repo: "deb http://httpredir.debian.org/debian {{ ansible_distribution_release }}-backports main contrib non-free"
+    state: present
+    filename: "{{ ansible_distribution_release }}-backports"
+  when: ansible_distribution == 'Debian'
+
+- name: "Configure repository for {{ ansible_distribution}} {{ ansible_distribution_release }}"
+  apt_repository:
+    repo: "deb {{ openio_sds_repo_baseurl }}/{{ openio_sds_release }}/{{ ansible_distribution }}/ {{ ansible_distribution_release }}/"
+    state: present
+    filename: openio-sds
+
+- name: "Setup repository key"
+  apt_key:
+    id: 51DB6A8D
+    url: http://mirror.openio.io/pub/repo/openio/APT-GPG-KEY-OPENIO-0
+    state: present

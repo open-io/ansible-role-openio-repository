@@ -1,0 +1,6 @@
+---
+# defaults file for ansible-role-repo-openio-sds
+
+openio_sds_release: '16.10'
+
+openio_sds_repo_baseurl: http://mirror.openio.io/pub/repo/openio/sds

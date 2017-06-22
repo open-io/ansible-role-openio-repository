@@ -1,0 +1,5 @@
+---
+
+openio_sds_rpm_repo_package_release: 1
+openio_sds_rpm_key_version: 0
+openio_sds_rpm_repo_package_url: "{{ openio_sds_repo_baseurl }}/{{ openio_sds_release }}/el/openio-sds-release-{{ openio_sds_release }}-{{ openio_sds_rpm_repo_package_release }}.el.noarch.rpm"
