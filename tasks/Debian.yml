@@ -9,12 +9,12 @@
 
 - name: "Configure repository for {{ ansible_distribution}} {{ ansible_distribution_release }}"
   apt_repository:
-    repo: "deb {{ openio_sds_repo_baseurl }}/{{ openio_sds_release }}/{{ ansible_distribution }}/ {{ ansible_distribution_release }}/"
+    repo: "deb {{ openio_sds_repo_releaseurl }}/{{ ansible_distribution }}/ {{ ansible_distribution_release }}/"
     state: present
     filename: openio-sds
 
 - name: "Setup repository key"
   apt_key:
     id: 51DB6A8D
-    url: http://mirror.openio.io/pub/repo/openio/APT-GPG-KEY-OPENIO-0
+    url: "{{ openio_sds_repo_baseurl }}/APT-GPG-KEY-OPENIO-0"
     state: present
