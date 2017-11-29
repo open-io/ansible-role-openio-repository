@@ -40,3 +40,6 @@
     id: 5EDB1B62EC4926EA
     keyserver: keyserver.ubuntu.com
 
+- name: "Update APT cache"
+  apt:
+    update_cache: yes
