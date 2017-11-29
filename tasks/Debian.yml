@@ -1,15 +1,15 @@
 ---
 
-- name: "Configure Backports repository for {{ ansible_distribution}} {{ ansible_distribution_release }}"
+- name: "Configure Backports repository for {{ ansible_lsb.id }} {{ ansible_distribution_release }}"
   apt_repository:
-    repo: "deb http://httpredir.debian.org/debian {{ ansible_distribution_release }}-backports main contrib non-free"
+    repo: "deb http://httpredir.debian.org/debian/ {{ ansible_distribution_release }}-backports main contrib non-free"
     state: present
     filename: "{{ ansible_distribution_release }}-backports"
-  when: ansible_distribution == 'Debian'
+  when: ansible_lsb.id == 'Debian'
 
-- name: "Configure repository for {{ ansible_distribution}} {{ ansible_distribution_release }}"
+- name: "Configure repository for {{ ansible_lsb.id }} {{ ansible_distribution_release }}"
   apt_repository:
-    repo: "deb {{ openio_sds_repo_releaseurl }}/{{ ansible_distribution }}/ {{ ansible_distribution_release }}/"
+    repo: "deb {{ openio_sds_repo_releaseurl }}/{{ ansible_lsb.id }}/ {{ ansible_distribution_release }}/"
     state: present
     filename: openio-sds
 
@@ -18,3 +18,25 @@
     id: 51DB6A8D
     url: "{{ openio_sds_repo_baseurl }}/APT-GPG-KEY-OPENIO-0"
     state: present
+
+- name: "Install required packages to configure repositories"
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - python-software-properties
+    - python3-software-properties
+  when: ansible_lsb.id == 'Ubuntu'
+
+- name: "Configure Openstack {{ openio_openstack_release }} release repository"
+  apt_repository:
+    repo: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu {{ ansible_lsb.codename }}-updates/pike main"
+    state: present
+    filename: 'cloudarchive-pike'
+  when: ansible_lsb.id == 'Ubuntu'
+
+- name: "Setup repository key for Openstack repository"
+  apt_key:
+    id: 5EDB1B62EC4926EA
+    keyserver: keyserver.ubuntu.com
+
