@@ -50,6 +50,9 @@
   template:
     src: policy-rc.d
     dest: /usr/sbin/policy-rc.d
+    owner: root
+    group: root
+    mode: 0755
   when:
     - openio_policy_disable_autostart
 ...
