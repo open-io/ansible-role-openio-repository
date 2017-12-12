@@ -1,5 +1,4 @@
 ---
-
 - name: "Configure Backports repository for {{ ansible_lsb.id }} {{ ansible_distribution_release }}"
   apt_repository:
     repo: "deb http://httpredir.debian.org/debian/ {{ ansible_distribution_release }}-backports main contrib non-free"
@@ -43,3 +42,5 @@
 - name: "Update APT cache"
   apt:
     update_cache: yes
+  changed_when: false
+...
