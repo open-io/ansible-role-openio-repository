@@ -20,11 +20,13 @@
 
 - name: "Install required packages to configure repositories"
   package:
-    name: "{{ item }}"
+    name: "{{ pkg }}"
     state: present
   with_items:
     - python-software-properties
     - python3-software-properties
+  loop_control:
+    loop_var: pkg
   when: ansible_lsb.id == 'Ubuntu'
 
 - name: "Configure Openstack {{ openio_openstack_release }} release repository"
@@ -43,4 +45,11 @@
   apt:
     update_cache: yes
   changed_when: false
+
+- name: Configure policy to disable starting services at package install
+  template:
+    src: policy-rc.d
+    dest: /usr/sbin/policy-rc.d
+  when:
+    - openio_policy_disable_autostart
 ...
