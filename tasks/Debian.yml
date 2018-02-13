@@ -6,7 +6,7 @@
     filename: "{{ ansible_distribution_release }}-backports"
   when: ansible_lsb.id == 'Debian'
 
-- name: "Configure repository for {{ ansible_lsb.id }} {{ ansible_distribution_release }}"
+- name: "Configure {{ openio_sds_repo_product }} repository for {{ ansible_lsb.id }} {{ ansible_distribution_release }}"
   apt_repository:
     repo: "deb {{ openio_sds_repo_releaseurl }}/{{ ansible_lsb.id }}/ {{ ansible_distribution_release }}/"
     state: present
