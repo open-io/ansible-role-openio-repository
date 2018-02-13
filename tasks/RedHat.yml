@@ -1,28 +1,37 @@
 ---
-# - name: "Configure repository for {{ ansible_distribution}} {{ ansible_distribution_major_version }}"
-#   yum_repository:
-#     name: "openio-sds-{{ openio_sds_release }}"
-#     description: "OpenIO SDS {{ openio_sds_release }} packages for Entreprise Linux $releasever - $basearch"
-#     file: openio-sds
-#     baseurl: "{{ openio_sds_repo_releaseurl }}/el/$releasever/$basearch"
-#     enabled: yes
-#     gpgcheck: yes
-#
-# - name: "Configure source repository for {{ ansible_distribution}} {{ ansible_distribution_major_version }}"
-#   yum_repository:
-#     name: "openio-sds-{{ openio_sds_release }}-source"
-#     description: "OpenIO SDS {{ openio_sds_release }} packages for Entreprise Linux $releasever - $basearch - Source"
-#     file: openio-sds
-#     baseurl: "{{ openio_sds_repo_releaseurl }}/el/$releasever/SRPM"
-#     enabled: no
-#     gpgcheck: yes
-#
-# - name: "Setup the repository key"
-#   rpm_key:
-#     state: present
-#     key: ""{{ openio_sds_repo_baseurl }}/RPM-GPG-KEY-OPENIO-{{ openio_sds_rpm_key_version }}"
 
-- name: "Install repository configuration package for {{ ansible_distribution}} {{ ansible_distribution_major_version }}"
+- name: "Configure {{ openio_sds_repo_product }} repository for {{ ansible_distribution}} {{ ansible_distribution_major_version }}"
+  yum_repository:
+    name: "openio-{{ openio_sds_repo_product }}-{{ openio_sds_release }}"
+    description: "OpenIO {{ openio_sds_repo_product }} {{ openio_sds_release }} packages for Entreprise Linux $releasever - $basearch"
+    file: openio-sds
+    baseurl: "{{ openio_sds_repo_releaseurl }}/el/$releasever/$basearch"
+    enabled: yes
+    gpgcheck: yes
+  when: openio_sds_repo_altrepo
+
+- name: "Configure {{ openio_sds_repo_product }} source repository for {{ ansible_distribution}} {{ ansible_distribution_major_version }}"
+  yum_repository:
+    name: "openio-{{ openio_sds_repo_product }}-{{ openio_sds_release }}-source"
+    description: "OpenIO {{ openio_sds_repo_product }} {{ openio_sds_release }} packages for Entreprise Linux $releasever - $basearch - Source"
+    file: openio-sds
+    baseurl: "{{ openio_sds_repo_releaseurl }}/el/$releasever/SRPM"
+    enabled: no
+    gpgcheck: yes
+  when: openio_sds_repo_altrepo
+
+- name: "Setup the repository key"
+  rpm_key:
+    state: present
+    key: "{{ openio_sds_repo_baseurl }}/RPM-GPG-KEY-OPENIO-{{ openio_sds_rpm_key_version }}"
+  when: openio_sds_repo_altrepo
+
+################################################################################
+
+- name: "Install repository configuration package for {{ ansible_distribution }} {{ ansible_distribution_major_version }}"
   package:
     name: "{{ openio_sds_rpm_repo_package_url }}"
     state: installed
+  when: not openio_sds_repo_altrepo
+
+...
