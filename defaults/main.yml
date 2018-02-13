@@ -2,8 +2,14 @@
 # defaults file for ansible-role-repo-openio-sds
 
 openio_sds_release: '17.04'
+
+openio_sds_repo_user: ""
+openio_sds_repo_pass: ""
+openio_sds_repo_creds: "{% if openio_sds_repo_user and openio_sds_repo_pass %}{{ openio_sds_repo_user }}:{{ openio_sds_repo_pass }}@{% endif %}"
+
 openio_sds_repo_product: 'sds'
-openio_sds_repo_baseurl: http://mirror.openio.io/pub/repo/openio
+
+openio_sds_repo_baseurl: "http://{{ openio_sds_repo_creds }}mirror.openio.io/pub/repo/openio"
 openio_sds_repo_produrl: "{{ openio_sds_repo_baseurl }}/{{ openio_sds_repo_product }}"
 openio_sds_repo_releaseurl: "{{ openio_sds_repo_produrl }}/{{ openio_sds_release }}"
 
