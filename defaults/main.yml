@@ -14,3 +14,5 @@ openio_sds_repo_produrl: "{{ openio_sds_repo_baseurl }}/{{ openio_sds_repo_produ
 openio_sds_repo_releaseurl: "{{ openio_sds_repo_produrl }}/{{ openio_sds_release }}"
 
 openio_openstack_release: pike
+
+openio_sds_repo_altrepo: false
