@@ -1,48 +1,74 @@
-repo-openio-sds
-===============
+[![Build Status](https://travis-ci.org/open-io/ansible-role-openio-repository.svg?branch=master)](https://travis-ci.org/open-io/ansible-role-openio-repository)
+# Ansible role `repository`
 
-Ansible role that configure OpenIO SDS repositories.
+An Ansible role for setup OpenIO's repositories. Specifically, the responsibilities of this role are to:
 
-Requirements
-------------
+- Setup key and repository for an OpenIO product and a specific distribution
+- Manage credentials for private repositories
 
-Only supports RedHat 7 and Ubuntu 16.04.
+## Requirements
 
-Role Variables
---------------
+- Ansible 2.4+
 
-Available variables are listed below, along with default values (see defaults/main.yml):
+## Role Variables
 
-    openio_sds_release: '16.04'
-OpenIO SDS release installed. Defaults to the latest stable release.
 
-    openio_sds_repo_baseurl: http://mirror.openio.io/pub/repo/openio
-OpenIO base mirror URL for repositories.
+| Variable   | Default | Comments (type)  |
+| :---       | :---    | :---             |
+| `openio_repository_creds` | `""` | Credentials string |
+| `openio_repository_disable_policy_autostart` | `true` | (Ubuntu) Disable the autostart of unconfigured packages |
+| `openio_repository_distribution` | `'17.04'` | Distribution of OpenIO |
+| `openio_repository_manage_openstack_repository` | `true` | Allow the installation of Openstack's repository |
+| `openio_repository_openstack_distribution` | `pike` | Openstack's distribution |
+| `openio_repository_pass` | `""` | Password for private repository |
+| `openio_repository_product` | `'sds'` | Product of OpenIO |
+| `openio_repository_user` | `""` | User for private repository |
+| `openio_repository_state` | `"present"` | The state of the repository file |
 
-    openio_sds_repo_produrl: "{{ openio_sds_repo_baseurl }}/sds"
-OpenIO SDS product base URL used to install OpenIO SDS.
+## Dependencies
 
-    openio_sds_repo_releaseurl: "{{ openio_sds_repo_produrl }}/{{ openio_sds_release }}"
-OpenIO SDS product release URL used to install OpenIO SDS.
+No dependencies.
 
-Dependencies
-------------
+## Example Playbook
 
-This role has no dependencies.
+```yaml
+- hosts: all
+  gather_facts: true
+  become: true
+  roles:
+    - role: openio-repository
+    - role: openio-repository
+      openio_repository_distribution: "16.10"
+    - role: openio-repository
+      openio_repository_distribution: "16.10"
+      openio_repository_state: "asbent"
+    - role: openio-repository
+      openio_repository_product: yolo
+      openio_repository_user: foo
+      openio_repository_pass: bar
 
-Example Playbook
-----------------
+```
 
-    - hosts: servers
-      roles:
-         - { role: openio-repo-openio-sds, openio_sds_release: '17.04' }
 
-License
--------
+```ini
+[all]
+node1 ansible_host=192.168.1.173
+```
 
-Apache
+## Contributing
 
-OpenIO
-------
+Issues, feature requests, ideas are appreciated and can be posted in the Issues section.
 
-This role was created in 2017 by OpenIO.
+Pull requests are also very welcome.
+The best way to submit a PR is by first creating a fork of this Github project, then creating a topic branch for the suggested change and pushing that branch to your own fork.
+Github can then easily create a PR based on that branch.
+
+## License
+
+Apache License, Version 2.0
+
+## Contributors
+
+- [Cedric DELGEHIER](https://github.com/cdelgehier/) (maintainer)
+- [Romain ACCIARI](https://github.com/racciari) (maintainer)
+- [Vincent LEGOLL](https://github.com/vincent-legoll) (maintainer)

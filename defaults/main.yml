@@ -1,18 +1,18 @@
 ---
-# defaults file for ansible-role-repo-openio-sds
+# defaults file for ansible-role-openio-repository
 
-openio_sds_release: '17.04'
+openio_repository_distribution: '17.04'
+openio_repository_state: present
 
-openio_sds_repo_user: ""
-openio_sds_repo_pass: ""
-openio_sds_repo_creds: "{% if openio_sds_repo_user and openio_sds_repo_pass %}{{ openio_sds_repo_user }}:{{ openio_sds_repo_pass }}@{% endif %}"
+# Credentials for private content
+openio_repository_user: ""
+openio_repository_pass: ""
+openio_repository_creds: "{% if openio_repository_user and openio_repository_pass %}{{ openio_repository_user }}:{{ openio_repository_pass }}@{% endif %}"
 
-openio_sds_repo_product: 'sds'
+openio_repository_product: 'sds'
 
-openio_sds_repo_baseurl: "http://{{ openio_sds_repo_creds }}mirror.openio.io/pub/repo/openio"
-openio_sds_repo_produrl: "{{ openio_sds_repo_baseurl }}/{{ openio_sds_repo_product }}"
-openio_sds_repo_releaseurl: "{{ openio_sds_repo_produrl }}/{{ openio_sds_release }}"
+openio_repository_manage_openstack_repository: true
+openio_repository_disable_policy_autostart: true
 
-openio_openstack_release: pike
-
-openio_sds_repo_altrepo: false
+openio_repository_openstack_distribution: pike
+...

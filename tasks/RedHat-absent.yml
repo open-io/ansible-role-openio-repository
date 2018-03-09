@@ -1,0 +1,13 @@
+---
+- name: "Configure {{ openio_repository_product }} repository for {{ ansible_distribution}} {{ ansible_distribution_major_version }}"
+  yum_repository:
+    name: "openio-{{ openio_repository_product }}-{{ openio_repository_distribution }}"
+    file: "openio-{{ openio_repository_product }}-{{ openio_repository_distribution }}"
+    state: absent
+
+- name: "Configure {{ openio_repository_product }} source repository for {{ ansible_distribution}} {{ ansible_distribution_major_version }}"
+  yum_repository:
+    name: "openio-{{ openio_repository_product }}-{{ openio_repository_distribution }}-source"
+    file: "openio-{{ openio_repository_product }}-{{ openio_repository_distribution }}"
+    state: absent
+...

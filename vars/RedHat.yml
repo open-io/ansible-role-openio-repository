@@ -1,5 +1,6 @@
 ---
-
-openio_sds_rpm_repo_package_release: 1
-openio_sds_rpm_key_version: 0
-openio_sds_rpm_repo_package_url: "{{ openio_sds_repo_releaseurl }}/el/openio-sds-release-{{ openio_sds_release }}-{{ openio_sds_rpm_repo_package_release }}.el.noarch.rpm"
+openio_repository_rpm_repo_package_release: 1
+# openio_repository_rpm_repo_package_url: "{{ openio_repository_repo_releaseurl }}/el/openio-{{ openio_repository_product }}-release-{{ openio_repository_distribution }}-{{ openio_repository_rpm_repo_package_release }}.el.noarch.rpm"
+openio_repository_baseurl: "{{ openio_repository_url }}/{{ openio_repository_product }}/{{ openio_repository_distribution }}"
+openio_repository_gpgkey: RPM-GPG-KEY-OPENIO-0
+...
