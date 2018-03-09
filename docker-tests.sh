@@ -26,15 +26,9 @@ readonly role_dir='/etc/ansible/roles/role_under_test'
 readonly test_playbook="${role_dir}/docker-tests/test.yml"
 readonly requirements="${role_dir}/docker-tests/requirements.yml"
 
-# geerlingguy
-#readonly docker_image="geerlingguy/docker"
-#readonly image_tag="${docker_image}-${DISTRIBUTION}${VERSION}-ansible"
 # bertvv
 readonly docker_image="bertvv/ansible-testing"
 readonly image_tag="${docker_image}:${DISTRIBUTION}_${VERSION}"
-# williamyeh
-#readonly docker_image="williamyeh/ansible"
-#readonly image_tag="${docker_image}:${DISTRIBUTION}${VERSION}"
 
 # Distribution specific settings
 init="/sbin/init"
@@ -46,7 +40,7 @@ main() {
 
   start_container
 
-  run_galaxy_install
+  [[ -e ${requirements} ]] &&run_galaxy_install
   run_syntax_check
   run_test_playbook
   run_idempotence_test

@@ -4,34 +4,32 @@
 # number of the System Under Test.
 
 # Tests
-@test 'configuration gridinit templatized' {
-  run bash -c "docker exec -ti ${SUT_ID} head -n 1 /etc/gridinit.conf"
-  echo "output: "$output
-  echo "status: "$status
-  [[ "${status}" -eq "0" ]]
-  [[ "${output}" =~ "Ansible managed" ]]
+@test 'Check repository files for multiple product distribution' {
+  if [ "${DISTRIBUTION}" == "centos" ]; then
+    run docker exec -ti ${SUT_ID} bash -c 'ls /etc/yum.repos.d/openio* | tr "\n" " "'
+    echo "output: "$output
+    echo "status: "$status
+    [[ "${status}" -eq "0" ]]
+    [[ "${output}" =~ "/etc/yum.repos.d/openio-sds-16.10.repo /etc/yum.repos.d/openio-sds-17.04.repo /etc/yum.repos.d/openio-test-17.04.repo" ]]
+  elif [ "${DISTRIBUTION}" == "ubuntu" ]; then
+    run docker exec -ti ${SUT_ID} bash -c 'ls /etc/apt/sources.list.d/openio* | tr "\n" " "'
+    echo "output: "$output
+    echo "status: "$status
+    [[ "${status}" -eq "0" ]]
+    [[ "${output}" =~ "/etc/apt/sources.list.d/openio-sds-16.10.list /etc/apt/sources.list.d/openio-sds-17.04.list /etc/apt/sources.list.d/openio-test-17.04.list" ]]
+  fi
 }
 
-
-@test 'Namespace folder generation' {
-	run bash -c "docker exec -ti ${SUT_ID} ls /etc/gridinit.d | tr -s \"\t\" ' '"
-  echo "output: "$output
-  echo "status: "$status
-  [[ "${status}" -eq "0" ]]
-  [[ "${output}" =~ "OPENIO OPENIO2" ]]
-}
-
-@test 'File with a state "absent" is not present' {
-  run bash -c "docker exec -ti ${SUT_ID} ls /etc/gridinit.d/OPENIO2/rawx-1.conf"
-  echo "output: "$output
-  echo "status: "$status
-  [[ "${status}" -eq "2" ]]
-}
-
-@test 'Status output' {
-  run bash -c "docker exec -ti ${SUT_ID} bash -c 'gridinit_cmd status' | tail -n1 | tr -s ' ' ' '"
-  echo "output: "$output
-  echo "status: "$status
-  [[ "${status}" -eq "0" ]]
-  [[ "${output}" =~ "OPENIO-meta1-1 BROKEN -1 OPENIO,meta1,meta1-1" ]] || [[ "${output}" =~ "OPENIO-meta1-1 DOWN -1 OPENIO,meta1,meta1-1" ]]
+@test 'Check install package' {
+  if [ "${DISTRIBUTION}" == "centos" ]; then
+    run docker exec -ti ${SUT_ID} bash -c 'yum install --disablerepo="*" --enablerepo="openio-sds-17.04,base" -y openio-gridinit'
+    echo "output: "$output
+    echo "status: "$status
+    [[ "${status}" -eq "0" ]]
+  elif [ "${DISTRIBUTION}" == "ubuntu" ]; then
+    run docker exec -ti ${SUT_ID} bash -c 'rm -f /etc/apt/sources.list.d/openio-sds-16.10.list /etc/apt/sources.list.d/openio-test-17.04.list; apt update; apt install openio-gridinit -y'
+    echo "output: "$output
+    echo "status: "$status
+    [[ "${status}" -eq "0" ]]
+  fi
 }

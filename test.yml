@@ -5,4 +5,10 @@
   become: true
   roles:
     - role: role_under_test
-
+    - role: role_under_test
+      openio_repository_distribution: "16.10"
+    - role: role_under_test
+      openio_repository_distribution: "17.04"
+      openio_repository_product: test
+      openio_repository_user: foo
+      openio_repository_pass: bar
