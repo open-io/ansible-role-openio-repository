@@ -1,2 +1,4 @@
 ---
-# vars file for ansible-role-repo-openio-sds
+# vars file for ansible-role-openio-repository
+openio_repository_url: "http://{{ openio_repository_creds }}mirror.openio.io/pub/repo/openio"
+...

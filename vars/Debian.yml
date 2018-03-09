@@ -1,4 +1,8 @@
 ---
 
-openio_sds_repofile_path: /etc/apt/sources.list.d/openio-sds.list
-openio_policy_disable_autostart: true
+# openio_sds_repofile_path: /etc/apt/sources.list.d/openio-sds.list
+
+openio_repository_keyid: 51DB6A8D
+openio_repository_baseurl: "deb {{ openio_repository_url }}/{{ openio_repository_product }}/{{ openio_repository_distribution }}/{{ ansible_lsb.id }}/ {{ ansible_distribution_release }}/"
+openio_repository_gpgkey: APT-GPG-KEY-OPENIO-0
+...
