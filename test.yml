@@ -11,4 +11,4 @@
       openio_repository_distribution: "17.04"
       openio_repository_product: test
       openio_repository_user: foo
-      openio_repository_pass: bar
+      openio_repository_password: bar
