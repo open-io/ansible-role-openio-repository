@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/open-io/ansible-role-openio-repository.svg?branch=master)](https://travis-ci.org/open-io/ansible-role-openio-repository)
 # Ansible role `repository`
 
-An Ansible role for setup OpenIO's repositories. Specifically, the responsibilities of this role are to:
+An Ansible role for setup OpenIO's repositories (and OpenStack). Specifically, the responsibilities of this role are to:
 
 - Setup key and repository for an OpenIO product and a specific distribution
 - Manage credentials for private repositories
@@ -27,7 +27,7 @@ An Ansible role for setup OpenIO's repositories. Specifically, the responsibilit
 
 ## Dependencies
 
-No dependencies.
+- EPEL repository for `RedHat` family
 
 ## Example Playbook
 
