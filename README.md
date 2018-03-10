@@ -18,8 +18,8 @@ An Ansible role for setup OpenIO's repositories. Specifically, the responsibilit
 | `openio_repository_creds` | `""` | Credentials string |
 | `openio_repository_disable_policy_autostart` | `true` | (Ubuntu) Disable the autostart of unconfigured packages |
 | `openio_repository_distribution` | `'17.04'` | Distribution of OpenIO |
-| `openio_repository_manage_openstack_repository` | `true` | Allow the installation of Openstack's repository |
-| `openio_repository_openstack_distribution` | `pike` | Openstack's distribution |
+| `openio_repository_manage_openstack_repository` | `true` | Allow the installation of OpenStack's repository |
+| `openio_repository_openstack_distribution` | `pike` | OpenStack's distribution |
 | `openio_repository_password` | `""` | Password for private repository |
 | `openio_repository_product` | `'sds'` | Product of OpenIO |
 | `openio_repository_user` | `""` | User for private repository |

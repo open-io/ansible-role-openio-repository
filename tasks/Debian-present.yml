@@ -21,7 +21,7 @@
   loop_control:
     loop_var: pkg
 
-- name: "Configure Openstack {{ openio_repository_openstack_distribution }} release repository"
+- name: "Configure OpenStack {{ openio_repository_openstack_distribution }} release repository"
   apt_repository:
     repo: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu {{ ansible_lsb.codename }}-updates/{{ openio_repository_openstack_distribution }} main"
     state: present
@@ -29,7 +29,7 @@
   when:
     - openio_repository_manage_openstack_repository
 
-- name: "Setup repository key for Openstack repository"
+- name: "Setup repository key for OpenStack repository"
   apt_key:
     id: 5EDB1B62EC4926EA
     keyserver: keyserver.ubuntu.com
