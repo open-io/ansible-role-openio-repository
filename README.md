@@ -43,7 +43,7 @@ An Ansible role for setup OpenIO's repositories (and OpenStack). Specifically, t
       openio_repository_distribution: "16.10"
       openio_repository_state: "asbent"
     - role: openio-repository
-      openio_repository_product: yolo
+      openio_repository_product: oiofs
       openio_repository_user: foo
       openio_repository_password: bar
 
