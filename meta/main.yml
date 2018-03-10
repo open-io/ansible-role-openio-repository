@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  author: Romain ACCIARI
+  author: Romain ACCIARI <romain@openio.io>
   description: Setup repositories for OPENIO
   company: openio.io
   license: Apache
