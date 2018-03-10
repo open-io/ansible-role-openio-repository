@@ -6,8 +6,8 @@ openio_repository_state: present
 
 # Credentials for private content
 openio_repository_user: ""
-openio_repository_pass: ""
-openio_repository_creds: "{% if openio_repository_user and openio_repository_pass %}{{ openio_repository_user }}:{{ openio_repository_pass }}@{% endif %}"
+openio_repository_password: ""
+openio_repository_creds: "{% if openio_repository_user and openio_repository_password %}{{ openio_repository_user }}:{{ openio_repository_password }}@{% endif %}"
 
 openio_repository_product: 'sds'
 
