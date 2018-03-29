@@ -1,13 +1,19 @@
 ---
 - name: "Configure {{ openio_repository_product }} repository for {{ ansible_distribution}} {{ ansible_distribution_major_version }}"
   yum_repository:
-    name: "openio-{{ openio_repository_product }}-{{ openio_repository_distribution }}"
-    file: "openio-{{ openio_repository_product }}-{{ openio_repository_distribution }}"
+    name: "openio-{{ openio_repository_product }}-{{ openio_repository_release }}"
+    file: "openio-{{ openio_repository_product }}-{{ openio_repository_release }}"
     state: absent
 
 - name: "Configure {{ openio_repository_product }} source repository for {{ ansible_distribution}} {{ ansible_distribution_major_version }}"
   yum_repository:
-    name: "openio-{{ openio_repository_product }}-{{ openio_repository_distribution }}-source"
-    file: "openio-{{ openio_repository_product }}-{{ openio_repository_distribution }}"
+    name: "openio-{{ openio_repository_product }}-{{ openio_repository_release }}-source"
+    file: "openio-{{ openio_repository_product }}-{{ openio_repository_release }}"
     state: absent
+
+- name: "Configure Openstack {{ openio_repository_openstack_release }} release repository"
+  package:
+    name: "centos-release-openstack-{{ openio_repository_openstack_release }}"
+    state: installed
+  when: openio_repository_manage_openstack_repository
 ...

@@ -17,9 +17,9 @@ An Ansible role for setup OpenIO's repositories (and OpenStack). Specifically, t
 | :---       | :---    | :---             |
 | `openio_repository_creds` | `""` | Credentials string |
 | `openio_repository_disable_policy_autostart` | `true` | (Ubuntu) Disable the autostart of unconfigured packages |
-| `openio_repository_distribution` | `'17.04'` | Distribution of OpenIO |
+| `openio_repository_release` | `'17.04'` | Distribution of OpenIO |
 | `openio_repository_manage_openstack_repository` | `true` | Allow the installation of OpenStack's repository |
-| `openio_repository_openstack_distribution` | `pike` | OpenStack's distribution |
+| `openio_repository_openstack_release` | `pike` | OpenStack's distribution |
 | `openio_repository_password` | `""` | Password for private repository. This password will be provided to OpenIO's customers |
 | `openio_repository_product` | `'sds'` | Product of OpenIO |
 | `openio_repository_user` | `""` | User for private repository |
@@ -38,9 +38,9 @@ An Ansible role for setup OpenIO's repositories (and OpenStack). Specifically, t
   roles:
     - role: openio-repository
     - role: openio-repository
-      openio_repository_distribution: "16.10"
+      openio_repository_release: "16.10"
     - role: openio-repository
-      openio_repository_distribution: "16.10"
+      openio_repository_release: "17.04"
       openio_repository_state: "asbent"
     - role: openio-repository
       openio_repository_product: oiofs

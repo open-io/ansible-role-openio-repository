@@ -1,4 +1,21 @@
 ---
+- name: Ensure lsb-release package is installed
+  package:
+    name: "lsb-release"
+    state: present
+  register: lsbrelease
+
+- name: "Refetch facts"
+  setup:
+  when: lsbrelease.changed
+
+- name: "Configure Backports repository for {{ ansible_lsb.id }} {{ ansible_distribution_release }}"
+  apt_repository:
+    repo: "deb http://httpredir.debian.org/debian/ {{ ansible_distribution_release }}-backports main contrib non-free"
+    state: present
+    filename: "{{ ansible_distribution_release }}-backports"
+  when: ansible_lsb.id == 'Debian'
+
 - name: "Setup repository key"
   apt_key:
     id: "{{ openio_repository_keyid }}"
@@ -9,32 +26,7 @@
   apt_repository:
     repo: "{{ openio_repository_baseurl }}"
     state: present
-    filename: "openio-{{ openio_repository_product }}-{{ openio_repository_distribution }}"
-
-- name: "Install required packages to configure repositories"
-  package:
-    name: "{{ pkg }}"
-    state: present
-  with_items:
-    - python-software-properties
-    - python3-software-properties
-  loop_control:
-    loop_var: pkg
-
-- name: "Configure OpenStack {{ openio_repository_openstack_distribution }} release repository"
-  apt_repository:
-    repo: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu {{ ansible_lsb.codename }}-updates/{{ openio_repository_openstack_distribution }} main"
-    state: present
-    filename: "cloudarchive-{{ openio_repository_openstack_distribution }}"
-  when:
-    - openio_repository_manage_openstack_repository
-
-- name: "Setup repository key for OpenStack repository"
-  apt_key:
-    id: 5EDB1B62EC4926EA
-    keyserver: keyserver.ubuntu.com
-  when:
-    - openio_repository_manage_openstack_repository
+    filename: "openio-{{ openio_repository_product }}-{{ openio_repository_release }}"
 
 - name: "Update APT cache"
   apt:
