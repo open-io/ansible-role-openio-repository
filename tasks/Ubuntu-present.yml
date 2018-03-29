@@ -1,0 +1,53 @@
+---
+- name: "Setup repository key"
+  apt_key:
+    id: "{{ openio_repository_keyid }}"
+    url: "{{ openio_repository_url }}/{{ openio_repository_gpgkey }}"
+    state: present
+
+- name: "Configure {{ openio_repository_product }} repository for {{ ansible_lsb.id }} {{ ansible_distribution_release }}"
+  apt_repository:
+    repo: "{{ openio_repository_baseurl }}"
+    state: present
+    filename: "openio-{{ openio_repository_product }}-{{ openio_repository_release }}"
+
+- name: "Install required packages to configure repositories"
+  package:
+    name: "{{ pkg }}"
+    state: present
+  with_items:
+    - python-software-properties
+    - python3-software-properties
+  loop_control:
+    loop_var: pkg
+
+- name: "Configure OpenStack {{ openio_repository_openstack_release }} release repository"
+  apt_repository:
+    repo: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu {{ ansible_lsb.codename }}-updates/{{ openio_repository_openstack_release }} main"
+    state: present
+    filename: "cloudarchive-{{ openio_repository_openstack_release }}"
+  when:
+    - openio_repository_manage_openstack_repository
+
+- name: "Setup repository key for OpenStack repository"
+  apt_key:
+    id: 5EDB1B62EC4926EA
+    keyserver: keyserver.ubuntu.com
+  when:
+    - openio_repository_manage_openstack_repository
+
+- name: "Update APT cache"
+  apt:
+    update_cache: yes
+  changed_when: false
+
+- name: Configure policy to disable starting services at package install
+  copy:
+    src: policy-rc.d
+    dest: /usr/sbin/policy-rc.d
+    owner: root
+    group: root
+    mode: 0755
+  when:
+    - openio_repository_disable_policy_autostart
+...

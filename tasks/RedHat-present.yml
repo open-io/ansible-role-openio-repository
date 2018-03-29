@@ -6,19 +6,25 @@
 
 - name: "Configure {{ openio_repository_product }} repository for {{ ansible_distribution}} {{ ansible_distribution_major_version }}"
   yum_repository:
-    name: "openio-{{ openio_repository_product }}-{{ openio_repository_distribution }}"
-    description: "OpenIO {{ openio_repository_product }} {{ openio_repository_distribution }} packages for Entreprise Linux $releasever - $basearch"
-    file: "openio-{{ openio_repository_product }}-{{ openio_repository_distribution }}"
+    name: "openio-{{ openio_repository_product }}-{{ openio_repository_release }}"
+    description: "OpenIO {{ openio_repository_product }} {{ openio_repository_release }} packages for Entreprise Linux $releasever - $basearch"
+    file: "openio-{{ openio_repository_product }}-{{ openio_repository_release }}"
     baseurl: "{{ openio_repository_baseurl }}/el/$releasever/$basearch"
     enabled: yes
     gpgcheck: yes
 
 - name: "Configure {{ openio_repository_product }} source repository for {{ ansible_distribution}} {{ ansible_distribution_major_version }}"
   yum_repository:
-    name: "openio-{{ openio_repository_product }}-{{ openio_repository_distribution }}-source"
-    description: "OpenIO {{ openio_repository_product }} {{ openio_repository_distribution }} packages for Entreprise Linux $releasever - $basearch - Source"
-    file: "openio-{{ openio_repository_product }}-{{ openio_repository_distribution }}"
+    name: "openio-{{ openio_repository_product }}-{{ openio_repository_release }}-source"
+    description: "OpenIO {{ openio_repository_product }} {{ openio_repository_release }} packages for Entreprise Linux $releasever - $basearch - Source"
+    file: "openio-{{ openio_repository_product }}-{{ openio_repository_release }}"
     baseurl: "{{ openio_repository_baseurl }}/el/$releasever/SRPM"
     enabled: no
     gpgcheck: yes
+
+- name: "Configure Openstack {{ openio_repository_openstack_release }} release repository"
+  package:
+    name: "centos-release-openstack-{{ openio_repository_openstack_release }}"
+    state: installed
+  when: openio_repository_manage_openstack_repository
 ...

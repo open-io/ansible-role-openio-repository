@@ -1,4 +1,4 @@
 ---
-openio_repository_baseurl: "{{ openio_repository_url }}/{{ openio_repository_product }}/{{ openio_repository_distribution }}"
+openio_repository_baseurl: "{{ openio_repository_url }}/{{ openio_repository_product }}/{{ openio_repository_release }}"
 openio_repository_gpgkey: RPM-GPG-KEY-OPENIO-0
 ...

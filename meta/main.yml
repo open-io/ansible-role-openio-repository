@@ -1,8 +1,8 @@
 ---
 galaxy_info:
-  author: Romain ACCIARI <romain@openio.io>
+  author: Romain ACCIARI <romain.acciari@openio.io>
   description: Setup repositories for OPENIO
-  company: openio.io
+  company: OpenIO
   license: Apache
 
   min_ansible_version: 2.4
