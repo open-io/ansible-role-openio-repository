@@ -2,13 +2,15 @@
 ---
 
 - hosts: all
+  gather_facts: true
   become: true
   roles:
     - role: role_under_test
     - role: role_under_test
-      openio_repository_distribution: "16.10"
+      openio_repository_release: "16.10"
+      when: ansible_distribution != 'Debian'
     - role: role_under_test
-      openio_repository_distribution: "17.04"
+      openio_repository_release: "17.04"
       openio_repository_product: test
       openio_repository_user: foo
       openio_repository_password: bar
