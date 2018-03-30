@@ -23,10 +23,17 @@ before_install:
   # Fetch the branch with test code
   - git fetch origin docker-tests
   - git worktree add docker-tests origin/docker-tests
+  # Lint
+  - pip install ansible-lint yamlli
 
 script:
+  # Lint
+  - ansible-lint .
+  - yamllint .
+
   # Create container and apply test playbook
   - ./docker-tests/docker-tests.sh
 
   # Run functional tests on the container
   - SUT_ID=$(docker ps -qa) ./docker-tests/functional-tests.sh
+...
