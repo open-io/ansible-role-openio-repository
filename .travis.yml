@@ -24,7 +24,7 @@ before_install:
   - git fetch origin docker-tests
   - git worktree add docker-tests origin/docker-tests
   # Lint
-  - pip install ansible-lint yamlli
+  - pip install ansible-lint yamllint
 
 script:
   # Lint
