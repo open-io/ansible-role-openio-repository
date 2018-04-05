@@ -1,0 +1,46 @@
+---
+
+- name: "Configure EPEL repository"
+  package:
+    name: "epel-release"
+    state: installed
+  when: openio_repository_manage_epel_repository
+
+- name: "Setup the repository key"
+  rpm_key:
+    state: present
+    key: "{{ openio_repository_mirror_url_base_nocreds }}/{{ openio_repository_gpgkey }}"
+
+- name: "Configure repositories for {{ ansible_distribution}} {{ ansible_distribution_major_version }}"
+  yum_repository:
+    name: "openio-{{ repo.key }}-{{ repo.value.release }}"
+    description: "OpenIO {{ repo.key }} {{ repo.value.release }} packages for Entreprise Linux $releasever - $basearch"
+    file: "openio-{{ repo.key }}-{{ repo.value.release }}"
+    baseurl: "{{ openio_repository_mirror_url_base }}/{{ repo.key }}/{{ repo.value.release }}/el/$releasever/$basearch"
+    state: "{{ repo.value.state | default(openio_repository_product_state_default) }}"
+    enabled: "yes"
+    gpgcheck: "yes"
+  with_dict: "{{ openio_repository_products }}"
+  loop_control:
+    loop_var: repo
+
+- name: "Configure source repositories for {{ ansible_distribution}} {{ ansible_distribution_major_version }}"
+  yum_repository:
+    name: "openio-{{ repo.key }}-{{ repo.value.release }}-source"
+    description: "OpenIO {{ repo.key }} {{ repo.value.release }} packages for Entreprise Linux $releasever - $basearch - Source"
+    file: "openio-{{ repo.key }}-{{ repo.value.release }}"
+    baseurl: "{{ openio_repository_mirror_url_base }}/{{ repo.key }}/{{ repo.value.release }}/el/$releasever/SRPM"
+    state: "{{ repo.value.state | default(openio_repository_product_state_default) }}"
+    enabled: "no"
+    gpgcheck: "yes"
+  with_dict: "{{ openio_repository_products }}"
+  loop_control:
+    loop_var: repo
+
+- name: "Configure Openstack {{ openio_repository_openstack_release }} release repository"
+  package:
+    name: "centos-release-openstack-{{ openio_repository_openstack_release }}"
+    state: installed
+  when: openio_repository_manage_openstack_repository
+
+...

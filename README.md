@@ -12,24 +12,26 @@ An Ansible role for setup OpenIO's repositories (and OpenStack). Specifically, t
 
 ## Role Variables
 
-
 | Variable   | Default | Comments (type)  |
 | :---       | :---    | :---             |
-| `openio_repository_creds` | `""` | Credentials string |
-| `openio_repository_disable_policy_autostart` | `true` | (Ubuntu) Disable the autostart of unconfigured packages |
-| `openio_repository_release` | `'17.04'` | Distribution of OpenIO |
+| `openio_repository_disable_policy_autostart` | `true` | (Debian, Ubuntu) Disable the autostart of unconfigured packages |
+| `openio_repository_manage_epel_repository` | `true` | (RedHat) Allow the installation of EPEL repository |
 | `openio_repository_manage_openstack_repository` | `true` | Allow the installation of OpenStack's repository |
-| `openio_repository_openstack_release` | `pike` | OpenStack's distribution |
-| `openio_repository_password` | `""` | Password for private repository. This password will be provided to OpenIO's customers |
-| `openio_repository_product` | `'sds'` | Product of OpenIO |
-| `openio_repository_user` | `""` | User for private repository |
-| `openio_repository_state` | `"present"` | The state of the repository file |
+| `openio_repository_openstack_release` | `pike` | OpenStack release version codename |
+| `openio_repository_products` | `{'sds': {'release': '17.04'}}` | OpenIO products repositories to setup |
 
-## Dependencies
+The `openio_repository_products` variable should be a dict, with OpenIO products repository names ('sds', 'oiofs', 'replicator') as keys.
 
-- EPEL repository for `RedHat` family
+Each `openio_repository_products`s value should also be a dict, with the following content:
 
-## Example Playbook
+| Key   | Default | Comments (type)  |
+| :---       | :---    | :---             |
+| `release` | None | OpenIO release version ('17.04', 'unstable'). This one is mandatory |
+| `password` | None | Password for private repository. This will be provided to OpenIO's customers |
+| `user` | None | User account name for private repository. This will be provided to OpenIO's customers |
+| `state` | `"present"` | The state of the repository to setup |
+
+## Example playbook
 
 ```yaml
 - hosts: all
@@ -37,18 +39,30 @@ An Ansible role for setup OpenIO's repositories (and OpenStack). Specifically, t
   become: true
   roles:
     - role: openio-repository
-    - role: openio-repository
-      openio_repository_release: "16.10"
-    - role: openio-repository
-      openio_repository_release: "17.04"
-      openio_repository_state: "asbent"
-    - role: openio-repository
-      openio_repository_product: oiofs
-      openio_repository_user: foo
-      openio_repository_password: bar
 
+    - role: openio-repository
+      openio_repository_products:
+        sds:
+          release: "16.10"
+          state: "present"
+
+    - role: openio-repository
+      openio_repository_products:
+        sds:
+          release: "17.04"
+          state: "absent"
+
+    - role: openio-repository
+      openio_repository_products:
+        sds:
+          release: "17.04"
+        oiofs:
+          release: "unstable"
+          user: foo
+          password: bar
 ```
 
+## Example inventory
 
 ```ini
 [all]
