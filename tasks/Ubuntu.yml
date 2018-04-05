@@ -1,15 +1,19 @@
 ---
+
 - name: "Setup repository key"
   apt_key:
     id: "{{ openio_repository_keyid }}"
-    url: "{{ openio_repository_url }}/{{ openio_repository_gpgkey }}"
+    url: "{{ openio_repository_mirror_url_base_nocreds }}/{{ openio_repository_gpgkey }}"
     state: present
 
-- name: "Configure {{ openio_repository_product }} repository for {{ ansible_lsb.id }} {{ ansible_distribution_release }}"
+- name: "Configure repositories for {{ ansible_lsb.id }} {{ ansible_distribution_release }}"
   apt_repository:
-    repo: "{{ openio_repository_baseurl }}"
-    state: present
-    filename: "openio-{{ openio_repository_product }}-{{ openio_repository_release }}"
+    repo: "deb {{ openio_repository_mirror_url_base }}/{{ repo.key }}/{{ repo.value.release }}/{{ ansible_lsb.id | default(ansible_distribution) }}/ {{ ansible_distribution_release }}/"
+    state: "{{ repo.value.state | default(openio_repository_product_state_default) }}"
+    filename: "openio-{{ repo.key }}-{{ repo.value.release }}"
+  with_dict: "{{ openio_repository_products }}"
+  loop_control:
+    loop_var: repo
 
 - name: "Install required packages to configure repositories"
   package:
@@ -38,7 +42,7 @@
 
 - name: "Update APT cache"
   apt:
-    update_cache: yes
+    update_cache: true
   changed_when: false
 
 - name: Configure policy to disable starting services at package install
@@ -50,4 +54,5 @@
     mode: 0755
   when:
     - openio_repository_disable_policy_autostart
+
 ...

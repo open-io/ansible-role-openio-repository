@@ -1,18 +1,18 @@
 ---
 # defaults file for ansible-role-openio-repository
 
-openio_repository_release: '17.04'
-openio_repository_state: present
-
-# Credentials for private content
-openio_repository_user: ""
-openio_repository_password: ""
-openio_repository_creds: "{% if openio_repository_user and openio_repository_password %}{{ openio_repository_user }}:{{ openio_repository_password }}@{% endif %}"
-
-openio_repository_product: 'sds'
-
-openio_repository_manage_openstack_repository: true
-openio_repository_disable_policy_autostart: true
+openio_repository_products:
+  sds:
+    release: '17.04'
+#  oiofs:
+#    release: 'unstable'
+#    user: 'oiofs'
+#    password: '################'
 
 openio_repository_openstack_release: pike
+openio_repository_manage_openstack_repository: true
+openio_repository_manage_epel_repository: true
+openio_repository_disable_policy_autostart: true
+openio_repository_product_state_default: 'present'
+
 ...

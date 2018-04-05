@@ -10,7 +10,7 @@
 - name: "Include {{ ansible_distribution }} tasks"
   include_tasks: "{{ item }}"
   with_first_found:
-    - "{{ ansible_distribution }}-{{ openio_repository_state }}.yml"
-    - "{{ ansible_os_family }}-{{ openio_repository_state }}.yml"
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}.yml"
 
 ...
