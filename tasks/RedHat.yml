@@ -23,6 +23,7 @@
   with_dict: "{{ openio_repository_products }}"
   loop_control:
     loop_var: repo
+  no_log: true
 
 - name: "Configure source repositories for {{ ansible_distribution}} {{ ansible_distribution_major_version }}"
   yum_repository:
@@ -36,6 +37,7 @@
   with_dict: "{{ openio_repository_products }}"
   loop_control:
     loop_var: repo
+  no_log: true
 
 - name: "Configure Openstack {{ openio_repository_openstack_release }} release repository"
   package:
