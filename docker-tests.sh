@@ -42,7 +42,7 @@ main() {
 
   start_container
 
-  [[ -e ${requirements} ]] &&run_galaxy_install
+  [[ -e ${requirements} ]] && run_galaxy_install
   run_syntax_check
   run_test_playbook
   run_idempotence_test
