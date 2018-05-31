@@ -19,6 +19,7 @@ An Ansible role for setup OpenIO's repositories (and OpenStack). Specifically, t
 | `openio_repository_manage_openstack_repository` | `true` | Allow the installation of OpenStack's repository |
 | `openio_repository_openstack_release` | `pike` | OpenStack release version codename |
 | `openio_repository_products` | `{'sds': {'release': '17.04'}}` | OpenIO products repositories to setup |
+| `openio_repository_mirror_host` | `"mirror.openio.io"` | The mirror host to setup |
 
 The `openio_repository_products` variable should be a dict, with OpenIO products repository names ('sds', 'oiofs', 'replicator') as keys.
 
