@@ -3,7 +3,7 @@
 - name: "Configure EPEL repository"
   package:
     name: "epel-release"
-    state: installed
+    state: present
   when: openio_repository_manage_epel_repository
 
 - name: "Setup the repository key"
@@ -42,7 +42,7 @@
 - name: "Configure Openstack {{ openio_repository_openstack_release }} release repository"
   package:
     name: "centos-release-openstack-{{ openio_repository_openstack_release }}"
-    state: installed
+    state: present
   when: openio_repository_manage_openstack_repository
 
 ...
