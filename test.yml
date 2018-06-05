@@ -10,18 +10,22 @@
     - name: 'Install software-properties-common'
       command: 'apt-get install -y software-properties-common'
       changed_when: false
+      when: ansible_distribution == 'Ubuntu'
 
     - name: 'Ensure universe repository is not enabled/defined'
       command: 'add-apt-repository -r universe'
       changed_when: false
+      when: ansible_distribution == 'Ubuntu'
 
     - name: 'Remove software-properties-common, as the role will do that, which should also be tested'
       command: 'apt-get purge -y software-properties-common'
       changed_when: false
+      when: ansible_distribution == 'Ubuntu'
 
     - name: 'Update repositories metadata'
       command: 'apt-get update'
       changed_when: false
+      when: ansible_distribution == 'Ubuntu'
 
   roles:
     - role: role_under_test
