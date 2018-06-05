@@ -16,6 +16,21 @@
     loop_var: repo
   no_log: true
 
+- name: "Install required packages to run add-apt-repository"
+  package:
+    name: "software-properties-common"
+    state: present
+
+- name: "Configure `universe` repositories for {{ ansible_lsb.id }} {{ ansible_distribution_release }}, required for python-software-properties"
+  command: 'add-apt-repository universe'
+  register: res
+  changed_when: "' distribution component enabled for all sources.' in res.stdout"
+
+- name: "Update APT cache"
+  apt:
+    update_cache: true
+  changed_when: false
+
 - name: "Install required packages to configure repositories"
   package:
     name: "{{ pkg }}"
