@@ -35,11 +35,23 @@
   package:
     name: "{{ pkg }}"
     state: present
+  when: ansible_distribution_release == 'xenial'
   with_items:
     - python-software-properties
     - python3-software-properties
   loop_control:
     loop_var: pkg
+
+- name: "Install required packages to configure repositories"
+  package:
+    name: "{{ pkg }}"
+    state: present
+  when: ansible_distribution_release == 'bionic'
+  with_items:
+    - software-properties-common
+  loop_control:
+    loop_var: pkg
+
 
 - name: "Configure OpenStack {{ openio_repository_openstack_release }} release repository"
   apt_repository:
@@ -48,6 +60,7 @@
     filename: "cloudarchive-{{ openio_repository_openstack_release }}"
   when:
     - openio_repository_manage_openstack_repository
+    - ansible_distribution_release == 'xenial'
 
 - name: "Setup repository key for OpenStack repository"
   apt_key:
@@ -55,6 +68,7 @@
     keyserver: keyserver.ubuntu.com
   when:
     - openio_repository_manage_openstack_repository
+    - ansible_distribution_release == 'xenial'
 
 - name: "Update APT cache"
   apt:

@@ -9,7 +9,7 @@ openio_repository_products:
 #    user: 'oiofs'
 #    password: '################'
 
-openio_repository_openstack_release: pike
+openio_repository_openstack_release: "{{ 'queens' if ansible_distribution_release == 'bionic' else 'pike' }}"
 openio_repository_manage_openstack_repository: true
 openio_repository_manage_epel_repository: true
 openio_repository_disable_policy_autostart: true
