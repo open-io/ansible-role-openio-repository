@@ -1,16 +1,34 @@
-# Test playbook for Ansible role cdelgehier.openio-repository
 ---
+# Test playbook for Ansible role cdelgehier.openio-repository
 
 - hosts: all
   gather_facts: true
   become: true
+
   roles:
     - role: role_under_test
+      when: ansible_distribution_release == 'xenial' or (ansible_os_family == 'RedHat' and ansible_distribution_major_version == '7')
+
     - role: role_under_test
-      openio_repository_release: "16.10"
-      when: ansible_distribution != 'Debian'
+      openio_repository_openstack_release: queens
+      openio_repository_products:
+        sds:
+          release: '18.04'
+      when: ansible_distribution_release == 'bionic'
+
+
+##    - role: role_under_test
+##      openio_repository_products:
+##        sds:
+##          release: "16.10"
+##      when: ansible_distribution != 'Debian'
+#
     - role: role_under_test
-      openio_repository_release: "17.04"
-      openio_repository_product: test
-      openio_repository_user: foo
-      openio_repository_password: bar
+      openio_repository_mirror_host: mirror2.openio.io
+      openio_repository_products:
+        test:
+          release: "{{ '18.04' if ansible_distribution_release == 'bionic' else '17.04' }}"
+          password: 'bar'
+          user: 'foo'
+
+...
