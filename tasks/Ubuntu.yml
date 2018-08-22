@@ -14,7 +14,7 @@
   with_dict: "{{ openio_repository_products }}"
   loop_control:
     loop_var: repo
-  no_log: true
+  no_log: '{{ openio_repository_no_log }}'
 
 - name: "Install required packages to run add-apt-repository"
   package:

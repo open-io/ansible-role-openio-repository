@@ -15,5 +15,6 @@ openio_repository_manage_epel_repository: true
 openio_repository_disable_policy_autostart: true
 openio_repository_product_state_default: 'present'
 openio_repository_mirror_host: 'mirror.openio.io'
+openio_repository_no_log: true
 
 ...
