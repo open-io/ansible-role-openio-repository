@@ -3,7 +3,7 @@
 
 openio_repository_products:
   sds:
-    release: '17.04'
+    release: '18.04'
 #  oiofs:
 #    release: 'unstable'
 #    user: 'oiofs'
