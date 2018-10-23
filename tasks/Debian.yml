@@ -1,4 +1,9 @@
 ---
+- name: Install python-apt
+  package:
+    name: python-apt
+    state: present
+  check_mode: false
 
 - name: Ensure lsb-release package is installed
   package:
