@@ -1,4 +1,14 @@
 ---
+- name: Check if the repository is available
+  uri:
+    url: "{{ openio_repository_mirror_url_base }}/{{ repo.key }}/{{ repo.value.release }}/el/{{ ansible_distribution_major_version }}"
+  with_dict: "{{ openio_repository_products }}"
+  when:
+    - repo.value.state is not defined or repo.value.state != 'absent'
+    - openio_repository_check_reachability
+  loop_control:
+    loop_var: repo
+  no_log: '{{ openio_repository_no_log }}'
 
 - name: "Configure EPEL repository"
   package:
