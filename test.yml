@@ -17,7 +17,7 @@
     - role: role_under_test
       openio_repository_products:
         test:
-          release: '17.04'
+          release: '18.10'
           password: 'bar'
           user: 'foo'
 
