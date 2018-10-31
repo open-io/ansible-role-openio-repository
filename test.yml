@@ -7,12 +7,21 @@
 
   roles:
     - role: role_under_test
+      when:
+        - ansible_distribution == 'Ubuntu' and ansible_distribution_version != '18.04'
 
     - role: role_under_test
       openio_repository_products:
         sds:
           release: "16.10"
-      when: ansible_distribution != 'Debian'
+      when:
+        - ansible_distribution != 'Debian'
+        - ansible_distribution == 'Ubuntu' and ansible_distribution_version != '18.04'
+
+    - role: role_under_test
+      openio_repository_products:
+        sds:
+          release: "18.04"
 
     - role: role_under_test
       openio_repository_products:
