@@ -10,7 +10,7 @@
     echo "output: "$output
     echo "status: "$status
     [[ "${status}" -eq "0" ]]
-    [[ "${output}" =~ "/etc/yum.repos.d/openio-sds-16.10.repo /etc/yum.repos.d/openio-sds-17.04.repo /etc/apt/sources.list.d/openio-sds-18.04.list /etc/yum.repos.d/openio-test-18.04.repo" ]]
+    [[ "${output}" =~ "/etc/yum.repos.d/openio-sds-18.04.repo /etc/yum.repos.d/openio-test-18.04.repo" ]]
   elif [ "${DISTRIBUTION}" == "debian" ]; then
     run docker exec -ti ${SUT_ID} bash -c 'ls /etc/apt/sources.list.d/openio* | tr "\n" " "'
     echo "output: "$output
@@ -36,7 +36,7 @@
 
 @test 'Check install package' {
   if [ "${DISTRIBUTION}" == "centos" ]; then
-    run docker exec -ti ${SUT_ID} bash -c 'yum install --disablerepo="*" --enablerepo="openio-sds-17.04,base" -y openio-gridinit'
+    run docker exec -ti ${SUT_ID} bash -c 'yum install --disablerepo="*" --enablerepo="openio-sds-18.04,base" -y openio-gridinit'
     echo "output: "$output
     echo "status: "$status
     [[ "${status}" -eq "0" ]]
