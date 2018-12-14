@@ -16,7 +16,7 @@
     echo "output: "$output
     echo "status: "$status
     [[ "${status}" -eq "0" ]]
-    [[ "${output}" =~ "/etc/apt/sources.list.d/openio-sds-17.04.list /etc/apt/sources.list.d/openio-sds-18.04.list /etc/apt/sources.list.d/openio-test-18.04.list" ]]
+    [[ "${output}" =~ "/etc/apt/sources.list.d/openio-sds-18.04.list" ]]
   elif [ "${DISTRIBUTION}" == "ubuntu" ]; then
     if [ "${VERSION}" == '16.04' ]; then
       run docker exec -ti ${SUT_ID} bash -c 'ls /etc/apt/sources.list.d/openio* | tr "\n" " "'
@@ -41,10 +41,12 @@
     echo "status: "$status
     [[ "${status}" -eq "0" ]]
   elif [ "${DISTRIBUTION}" == "debian" ]; then
-    run docker exec -ti ${SUT_ID} bash -c 'rm -f /etc/apt/sources.list.d/openio-test-18.04.list; apt update; apt install openio-gridinit -y'
-    echo "output: "$output
-    echo "status: "$status
-    [[ "${status}" -eq "0" ]]
+    # Debian is not supported nice 18.04
+    true
+    #run docker exec -ti ${SUT_ID} bash -c 'rm -f /etc/apt/sources.list.d/openio-test-18.04.list; apt update; apt install openio-gridinit -y'
+    #echo "output: "$output
+    #echo "status: "$status
+    #[[ "${status}" -eq "0" ]]
   elif [ "${DISTRIBUTION}" == "ubuntu" ]; then
     run docker exec -ti ${SUT_ID} bash -c 'rm -f /etc/apt/sources.list.d/openio-sds-16.10.list /etc/apt/sources.list.d/openio-test-18.04.list; apt update; apt install openio-gridinit -y'
     echo "output: "$output
