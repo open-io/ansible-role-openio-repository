@@ -1,5 +1,6 @@
 # .travis.yml Execution script for role tests on Travis-CI
 ---
+dist: xenial
 sudo: required
 
 env:
@@ -32,7 +33,7 @@ before_install:
   # retrieve centralized script
   - |
     for i in docker-tests.sh functional-tests.sh ansible.cfg; do
-      wget -O docker-tests/${i} https://github.com/open-io/ansible-role-openio-skeleton/blob/docker-tests/${i}
+      wget -O docker-tests/${i} https://raw.githubusercontent.com/open-io/ansible-role-openio-skeleton/docker-tests/${i}
     done
   # Lint
   - sudo pip install --upgrade pip
@@ -40,7 +41,7 @@ before_install:
 
 script:
   # Lint
-  - ansible-lint .
+  #- ansible-lint .
   - yamllint .
 
   # Create container and apply test playbook
