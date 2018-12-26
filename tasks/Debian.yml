@@ -24,6 +24,8 @@
 
 - name: "Refetch facts"
   setup:
+    gather_subset: min
+    filter: ansible_lsb
   when: lsbrelease.changed
 
 - name: "Configure Backports repository for {{ ansible_lsb.id }} {{ ansible_distribution_release }}"
