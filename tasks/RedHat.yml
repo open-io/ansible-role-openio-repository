@@ -49,6 +49,13 @@
     loop_var: repo
   no_log: '{{ openio_repository_no_log }}'
 
+- name: "Exclude netdata from EPEL"
+  ini_file:
+    dest: /etc/yum.repos.d/epel.repo
+    section: epel
+    option: exclude
+    value: netdata
+
 - name: "Configure Openstack {{ openio_repository_openstack_release }} release repository"
   package:
     name: "centos-release-openstack-{{ openio_repository_openstack_release }}"
