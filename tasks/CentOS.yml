@@ -12,16 +12,9 @@
 
 - name: "Configure EPEL repository"
   package:
-    name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
+    name: "epel-release"
     state: present
   when: openio_repository_manage_epel_repository
-
-- name: Import EPEL GPG key.
-  rpm_key:
-    key: "/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
-    state: present
-  when: openio_repository_manage_epel_repository
-  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: "Setup the repository key"
   rpm_key:
@@ -65,7 +58,7 @@
 
 - name: "Configure Openstack {{ openio_repository_openstack_release }} release repository"
   package:
-    name: "http://repos.fedorapeople.org/repos/openstack/openstack-{{ openio_repository_openstack_release }}/rdo-release-{{ openio_repository_openstack_release }}-1.noarch.rpm"
+    name: "centos-release-openstack-{{ openio_repository_openstack_release }}"
     state: present
   when: openio_repository_manage_openstack_repository
 
