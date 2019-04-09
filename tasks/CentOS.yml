@@ -49,12 +49,12 @@
     loop_var: repo
   no_log: '{{ openio_repository_no_log }}'
 
-- name: "Exclude zeromq from EPEL to avoid conflicts with the Openstack repository"
+- name: "Package exclusions from EPEL to avoid conflicts with other repositories (OpenStack, OpenIO)"
   ini_file:
     dest: /etc/yum.repos.d/epel.repo
     section: epel
     option: exclude
-    value: zeromq
+    value: zeromq netdata
 
 - name: "Configure Openstack {{ openio_repository_openstack_release }} release repository"
   package:
