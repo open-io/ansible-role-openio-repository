@@ -3,7 +3,7 @@
 
 openio_repository_products:
   sds:
-    release: "{{ openio_sds_release | d('18.10') }}"
+    release: "{{ openio_sds_release | d('19.04') }}"
 #  oiofs:
 #    release: 'unstable'
 #    user: 'oiofs'
@@ -14,8 +14,8 @@ openio_repository_manage_openstack_repository: true
 openio_repository_manage_epel_repository: true
 openio_repository_disable_policy_autostart: true
 openio_repository_product_state_default: 'present'
-openio_repository_mirror_host: "{{ openio_openstack_distro | d('mirror.openio.io') }}"
-openio_repository_no_log: "{{ openio_no_log | d(true) }}"
+openio_repository_mirror_host: "{{ openio_mirror | d('mirror.openio.io') }}"
+openio_repository_no_log: "{{ openio_no_log | d(default_openio_no_log) | d(true) }}"
 openio_repository_check_reachability: true
 
 ...
