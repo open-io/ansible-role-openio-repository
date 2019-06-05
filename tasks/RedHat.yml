@@ -61,7 +61,7 @@
     dest: /etc/yum.repos.d/epel.repo
     section: epel
     option: exclude
-    value: zeromq netdata
+    value: netdata
 
 - name: "Configure Openstack {{ openio_repository_openstack_release }} release repository"
   package:
