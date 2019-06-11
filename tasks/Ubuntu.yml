@@ -9,18 +9,21 @@
   loop_control:
     loop_var: repo
   no_log: '{{ openio_repository_no_log }}'
+  tags: install
 
 - name: Install python-apt
   package:
     name: python-apt
     state: present
   check_mode: false
+  tags: install
 
 - name: "Setup repository key"
   apt_key:
     id: "{{ openio_repository_keyid }}"
     url: "{{ openio_repository_mirror_url_base_nocreds }}/{{ openio_repository_gpgkey }}"
     state: present
+  tags: install
 
 - name: "Configure repositories for {{ ansible_lsb.id }} {{ ansible_distribution_release }}"
   apt_repository:
@@ -31,21 +34,25 @@
   loop_control:
     loop_var: repo
   no_log: '{{ openio_repository_no_log }}'
+  tags: install
 
 - name: "Install required packages to run add-apt-repository"
   package:
     name: "software-properties-common"
     state: present
+  tags: install
 
 - name: "Configure `universe` repositories for {{ ansible_lsb.id }} {{ ansible_distribution_release }}, required for python-software-properties"
   command: 'add-apt-repository universe'
   register: res
   changed_when: "' distribution component enabled for all sources.' in res.stdout"
+  tags: install
 
 - name: "Update APT cache"
   apt:
     update_cache: true
   changed_when: false
+  tags: install
 
 - name: "Install required packages to configure repositories"
   package:
@@ -57,6 +64,7 @@
     - python3-software-properties
   loop_control:
     loop_var: pkg
+  tags: install
 
 - name: "Install required packages to configure repositories"
   package:
@@ -67,7 +75,7 @@
     - software-properties-common
   loop_control:
     loop_var: pkg
-
+  tags: install
 
 - name: "Configure OpenStack {{ openio_repository_openstack_release }} release repository"
   apt_repository:
@@ -77,6 +85,7 @@
   when:
     - openio_repository_manage_openstack_repository
     - ansible_distribution_release == 'xenial'
+  tags: install
 
 - name: "Setup repository key for OpenStack repository"
   apt_key:
@@ -85,11 +94,13 @@
   when:
     - openio_repository_manage_openstack_repository
     - ansible_distribution_release == 'xenial'
+  tags: install
 
 - name: "Update APT cache"
   apt:
     update_cache: true
   changed_when: false
+  tags: install
 
 - name: Configure policy to disable starting services at package install
   copy:
@@ -100,5 +111,5 @@
     mode: 0755
   when:
     - openio_repository_disable_policy_autostart
-
+  tags: install
 ...

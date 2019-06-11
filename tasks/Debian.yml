@@ -9,24 +9,28 @@
   loop_control:
     loop_var: repo
   no_log: '{{ openio_repository_no_log }}'
+  tags: install
 
 - name: Install python-apt
   package:
     name: python-apt
     state: present
   check_mode: false
+  tags: install
 
 - name: Ensure lsb-release package is installed
   package:
     name: "lsb-release"
     state: present
   register: lsbrelease
+  tags: install
 
 - name: "Refetch facts"
   setup:
     gather_subset: min
     filter: ansible_lsb
   when: lsbrelease.changed
+  tags: install
 
 - name: "Configure Backports repository for {{ ansible_lsb.id }} {{ ansible_distribution_release }}"
   apt_repository:
@@ -34,12 +38,14 @@
     state: present
     filename: "{{ ansible_distribution_release }}-backports"
   when: ansible_lsb.id == 'Debian'
+  tags: install
 
 - name: "Setup repository key"
   apt_key:
     id: "{{ openio_repository_keyid }}"
     url: "{{ openio_repository_mirror_url_base_nocreds }}/{{ openio_repository_gpgkey }}"
     state: present
+  tags: install
 
 - name: "Configure repositories for {{ ansible_lsb.id }} {{ ansible_distribution_release }}"
   apt_repository:
@@ -50,11 +56,13 @@
   loop_control:
     loop_var: repo
   no_log: '{{ openio_repository_no_log }}'
+  tags: install
 
 - name: "Update APT cache"
   apt:
     update_cache: true
   changed_when: false
+  tags: install
 
 - name: Configure policy to disable starting services at package install
   copy:
@@ -65,5 +73,6 @@
     mode: 0755
   when:
     - openio_repository_disable_policy_autostart
+  tags: install
 
 ...
