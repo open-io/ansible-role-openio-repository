@@ -1,5 +1,7 @@
 ---
 
 openio_repository_gpgkey: RPM-GPG-KEY-OPENIO-0
+openio_repository_gpgkey_epel: RPM-GPG-KEY-EPEL-7
+openio_repository_gpgkey_openstack: RPM-GPG-KEY-CentOS-SIG-Cloud
 
 ...

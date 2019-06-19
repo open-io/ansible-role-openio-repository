@@ -11,11 +11,31 @@
   no_log: '{{ openio_repository_no_log }}'
   tags: install
 
-- name: "Configure EPEL repository"
+# For customers that refuse our EPEL internal mirror
+- name: "Configure upstream EPEL repository"
   package:
     name: "epel-release"
     state: present
-  when: openio_repository_manage_epel_repository
+  when:
+    - openio_repository_manage_epel_repository
+    - openio_repository_epel_upstream_repository
+  tags: install
+
+- name: "Configure openio EPEL mirror"
+  yum_repository:
+    name: "openio-EPEL-{{ ansible_distribution_major_version }}"
+    description: "OpenIO EPEL {{ ansible_distribution_major_version }} packages for Entreprise Linux $releasever - $basearch"
+    file: "openio-EPEL-{{ ansible_distribution_major_version }}"
+    baseurl: "{{ openio_repository_mirror_root_url }}/epel/{{ ansible_distribution_major_version }}/$basearch"
+    gpgkey: "{{ openio_repository_mirror_root_url }}/epel/{{ openio_repository_gpgkey_epel }}"
+    exclude: ['netdata']
+    state: present
+    enabled: "yes"
+    gpgcheck: "yes"
+  when:
+    - openio_repository_manage_epel_repository
+    - not openio_repository_epel_upstream_repository
+  no_log: '{{ openio_repository_no_log }}'
   tags: install
 
 - name: "Setup the repository key"
@@ -24,7 +44,7 @@
     key: "{{ openio_repository_mirror_url_base_nocreds }}/{{ openio_repository_gpgkey }}"
   tags: install
 
-- name: "Configure repositories for {{ ansible_distribution}} {{ ansible_distribution_major_version }}"
+- name: "Configure OpenIO repositories for {{ ansible_distribution }} {{ ansible_distribution_major_version }}"
   yum_repository:
     name: "openio-{{ repo.key }}-{{ repo.value.release }}"
     description: "OpenIO {{ repo.key }} {{ repo.value.release }} packages for Entreprise Linux $releasever - $basearch"
@@ -39,7 +59,7 @@
   no_log: '{{ openio_repository_no_log }}'
   tags: install
 
-- name: "Configure source repositories for {{ ansible_distribution}} {{ ansible_distribution_major_version }}"
+- name: "Configure OpenIO source repositories for {{ ansible_distribution }} {{ ansible_distribution_major_version }}"
   yum_repository:
     name: "openio-{{ repo.key }}-{{ repo.value.release }}-source"
     description: "OpenIO {{ repo.key }} {{ repo.value.release }} packages for Entreprise Linux $releasever - $basearch - Source"
@@ -61,11 +81,37 @@
     option: exclude
     value: netdata
   tags: install
+  when:
+    - openio_repository_manage_epel_repository
+    - openio_repository_epel_upstream_repository
 
-- name: "Configure Openstack {{ openio_repository_openstack_release }} release repository"
+# The netdata exclusion is done with the yum_repository to maintain idempotency
+# in case openio_repository_epel_upstream_repository is false
+
+# For customers that refuse our OpenStack internal mirror
+- name: "Configure upstream OpenStack {{ openio_repository_openstack_release }} release repository"
   package:
     name: "centos-release-openstack-{{ openio_repository_openstack_release }}"
     state: present
-  when: openio_repository_manage_openstack_repository
+  when:
+    - openio_repository_manage_openstack_repository
+    - openio_repository_openstack_upstream_repository
   tags: install
+
+- name: "Configure OpenIO OpenStack {{ openio_repository_openstack_release }} release mirror"
+  yum_repository:
+    name: "openio-openstack-{{ openio_repository_openstack_release }}"
+    description: "OpenIO OpenStack {{ openio_repository_openstack_release }} packages for Entreprise Linux $releasever - $basearch"
+    file: "openio-openstack-{{ openio_repository_openstack_release }}"
+    baseurl: "{{ openio_repository_mirror_root_url }}/openstack/$releasever/cloud/$basearch/openstack-{{ openio_repository_openstack_release }}"
+    gpgkey: "{{ openio_repository_mirror_root_url }}/openstack/$releasever/cloud/{{ openio_repository_gpgkey_openstack }}"
+    state: present
+    enabled: "yes"
+    gpgcheck: "yes"
+  when:
+    - openio_repository_manage_openstack_repository
+    - not openio_repository_openstack_upstream_repository
+  no_log: '{{ openio_repository_no_log }}'
+  tags: install
+
 ...

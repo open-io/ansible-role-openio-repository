@@ -11,7 +11,9 @@ openio_repository_products:
 
 openio_repository_openstack_release: "{{ openio_openstack_distro | d('queens') }}"
 openio_repository_manage_openstack_repository: true
+openio_repository_openstack_upstream_repository: false
 openio_repository_manage_epel_repository: true
+openio_repository_epel_upstream_repository: false
 openio_repository_disable_policy_autostart: true
 openio_repository_product_state_default: 'present'
 openio_repository_mirror_host: "{{ openio_mirror | d('mirror.openio.io') }}"
