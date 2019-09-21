@@ -15,7 +15,7 @@
       openio_repository_mirror_host: mirror2.openio.io
       openio_repository_products:
         test:
-          release: '19.04'
+          release: '19.10'
           password: 'bar'
           user: 'foo'
 
