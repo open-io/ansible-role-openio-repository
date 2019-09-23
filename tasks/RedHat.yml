@@ -62,14 +62,6 @@
   no_log: '{{ openio_repository_no_log }}'
   tags: install
 
-- name: "Package exclusions from EPEL to avoid conflicts with other repositories (OpenStack, OpenIO)"
-  ini_file:
-    dest: /etc/yum.repos.d/epel.repo
-    section: epel
-    option: exclude
-    value: netdata
-  tags: install
-
 - name: "Configure Openstack {{ openio_repository_openstack_release }} release repository"
   package:
     name: "http://repos.fedorapeople.org/repos/openstack/openstack-{{ openio_repository_openstack_release }}/rdo-release-{{ openio_repository_openstack_release }}-1.noarch.rpm"
