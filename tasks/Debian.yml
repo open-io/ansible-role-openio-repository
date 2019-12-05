@@ -13,7 +13,7 @@
 
 - name: Install python-apt
   package:
-    name: python-apt
+    name: python3-apt
     state: present
   check_mode: false
   tags: install

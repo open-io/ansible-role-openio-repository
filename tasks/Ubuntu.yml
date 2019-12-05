@@ -11,9 +11,11 @@
   no_log: '{{ openio_repository_no_log }}'
   tags: install
 
-- name: Install python-apt
+- name: Install python3-apt
   package:
-    name: python-apt
+    name:
+      - python3-apt
+      - gpg
     state: present
   check_mode: false
   tags: install
@@ -60,7 +62,6 @@
     state: present
   when: ansible_distribution_release == 'xenial'
   with_items:
-    - python-software-properties
     - python3-software-properties
   loop_control:
     loop_var: pkg
