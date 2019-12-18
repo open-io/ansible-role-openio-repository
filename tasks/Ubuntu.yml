@@ -60,32 +60,11 @@
   package:
     name: "{{ pkg }}"
     state: present
-  when: ansible_distribution_release == 'xenial'
-  with_items:
-    - python3-software-properties
-  loop_control:
-    loop_var: pkg
-  tags: install
-
-- name: "Install required packages to configure repositories"
-  package:
-    name: "{{ pkg }}"
-    state: present
   when: ansible_distribution_release == 'bionic'
   with_items:
     - software-properties-common
   loop_control:
     loop_var: pkg
-  tags: install
-
-- name: "Configure OpenStack {{ openio_repository_openstack_release }} release repository"
-  apt_repository:
-    repo: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu {{ ansible_lsb.codename }}-updates/{{ openio_repository_openstack_release }} main"
-    state: present
-    filename: "cloudarchive-{{ openio_repository_openstack_release }}"
-  when:
-    - openio_repository_manage_openstack_repository
-    - ansible_distribution_release == 'xenial'
   tags: install
 
 - name: "Setup repository key for OpenStack repository"
@@ -94,7 +73,17 @@
     keyserver: keyserver.ubuntu.com
   when:
     - openio_repository_manage_openstack_repository
-    - ansible_distribution_release == 'xenial'
+    #- openio_repository_openstack_release == 'train'
+
+- name: "Configure OpenStack {{ openio_repository_openstack_release }} release repository"
+  apt_repository:
+    repo: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu {{ ansible_lsb.codename }}-updates/{{ openio_repository_openstack_release }} main"
+    update_cache: false
+    state: present
+    filename: "cloudarchive-{{ openio_repository_openstack_release }}"
+  when:
+    - openio_repository_manage_openstack_repository
+    - openio_repository_openstack_release == 'train'
   tags: install
 
 - name: "Update APT cache"
