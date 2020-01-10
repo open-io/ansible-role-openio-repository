@@ -5,9 +5,17 @@ openio_repository_products:
   sds:
     release: "{{ openio_sds_release | d('19.04') }}"
 #  oiofs:
-#    release: 'unstable'
+#    release: '19.04'
 #    user: 'oiofs'
 #    password: '################'
+
+# To use "unstable" packages (without using the QA "testing" compound repository
+# Call this role two times, the first time as above to setup a stable repository
+# then a second time to setup the additional "unstable" repository, like that:
+#
+#openio_repository_products:
+#  sds:
+#    release: "{{ openio_sds_release | d('19.04') }}/unstable"
 
 openio_repository_openstack_release: "{{ openio_openstack_distro | d('queens') }}"
 openio_repository_manage_openstack_repository: true
