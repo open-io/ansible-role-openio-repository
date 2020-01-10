@@ -24,7 +24,7 @@
     key: "{{ openio_repository_mirror_url_base_nocreds }}/{{ openio_repository_gpgkey }}"
   tags: install
 
-- name: "Configure repositories for {{ ansible_distribution}} {{ ansible_distribution_major_version }}"
+- name: "Configure repositories for {{ ansible_distribution }} {{ ansible_distribution_major_version }}"
   yum_repository:
     name: "openio-{{ repo.key }}-{{ repo.value.release }}"
     description: "OpenIO {{ repo.key }} {{ repo.value.release }} packages for Entreprise Linux $releasever - $basearch"
@@ -39,7 +39,7 @@
   no_log: '{{ openio_repository_no_log }}'
   tags: install
 
-- name: "Configure source repositories for {{ ansible_distribution}} {{ ansible_distribution_major_version }}"
+- name: "Configure source repositories for {{ ansible_distribution }} {{ ansible_distribution_major_version }}"
   yum_repository:
     name: "openio-{{ repo.key }}-{{ repo.value.release }}-source"
     description: "OpenIO {{ repo.key }} {{ repo.value.release }} packages for Entreprise Linux $releasever - $basearch - Source"
