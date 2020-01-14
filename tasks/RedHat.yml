@@ -23,9 +23,9 @@
 
 - name: "Configure repositories for {{ ansible_distribution}} {{ ansible_distribution_major_version }}"
   yum_repository:
-    name: "openio-{{ repo.key }}-{{ repo.value.release }}"
+    name: "openio-{{ repo.key }}-{{ repo.value.release | replace('/', '-') }}"
     description: "OpenIO {{ repo.key }} {{ repo.value.release }} packages for Entreprise Linux $releasever - $basearch"
-    file: "openio-{{ repo.key }}-{{ repo.value.release }}"
+    file: "openio-{{ repo.key }}-{{ repo.value.release | replace('/', '-') }}"
     baseurl: "{{ openio_repository_mirror_url_base }}/{{ repo.key }}/{{ repo.value.release }}/el/$releasever/$basearch"
     state: "{{ repo.value.state | default(openio_repository_product_state_default) }}"
     enabled: "yes"
@@ -35,6 +35,7 @@
     loop_var: repo
   no_log: '{{ openio_repository_no_log }}'
 
+# This is not setup for "unstable" releases (f.e.: '19.10/unstable', see `when` clause below)
 - name: "Configure source repositories for {{ ansible_distribution}} {{ ansible_distribution_major_version }}"
   yum_repository:
     name: "openio-{{ repo.key }}-{{ repo.value.release }}-source"
@@ -45,6 +46,7 @@
     enabled: "no"
     gpgcheck: "yes"
   with_dict: "{{ openio_repository_products }}"
+  when: "'/' not in repo.value.release"
   loop_control:
     loop_var: repo
   no_log: '{{ openio_repository_no_log }}'
