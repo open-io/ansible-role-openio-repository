@@ -31,6 +31,10 @@
     state: present
     key: "{{ openio_repository_mirror_url_base_nocreds }}/{{ openio_repository_gpgkey }}"
   tags: install
+  register: rpm_key
+  until: rpm_key is success
+  retries: 5
+  delay: 2
 
 - name: "Configure repositories for {{ ansible_distribution }} {{ ansible_distribution_major_version }}"
   yum_repository:

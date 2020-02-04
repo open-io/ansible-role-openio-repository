@@ -26,6 +26,10 @@
     url: "{{ openio_repository_mirror_url_base_nocreds }}/{{ openio_repository_gpgkey }}"
     state: present
   tags: install
+  register: deb_key
+  until: deb_key is success
+  retries: 5
+  delay: 2
 
 - name: "Configure repositories for {{ ansible_lsb.id }} {{ ansible_distribution_release }}"
   apt_repository:
