@@ -1,13 +1,2 @@
 ---
-# vars file for ansible-role-openio-repository
-
-# Credentials for private repo, dependent on "with_dict" loop variable: "repo"
-# See tasks/{RedHat,Debian,Ubuntu}.yml
-openio_repository_creds: "{% if repo.value.user is defined and repo.value.password is defined %}{{ repo.value.user }}:{{ repo.value.password }}@{% endif %}"
-
-openio_repository_mirror_url_base: "http://{{ openio_repository_creds }}{{ openio_repository_mirror_host }}/pub/repo/openio"
-
-# The following is only used to get the repository signing keys
-openio_repository_mirror_url_base_nocreds: "http://{{ openio_repository_mirror_host }}/pub/repo/openio"
-
 ...
