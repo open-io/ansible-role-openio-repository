@@ -3,9 +3,9 @@
 
 openio_repository_products:
   sds:
-    release: "{{ openio_sds_release | d('19.10') }}"
+    release: "{{ openio_sds_release | d('20.04') }}"
 #  oiofs:
-#    release: '19.10'
+#    release: '20.04'
 #    user: 'oiofs'
 #    password: '################'
 
@@ -15,7 +15,7 @@ openio_repository_products:
 #
 #openio_repository_products:
 #  sds:
-#    release: "{{ openio_sds_release | d('19.10') }}/unstable"
+#    release: "{{ openio_sds_release | d('20.04') }}/unstable"
 
 openio_repository_openstack_release: "{{ openio_openstack_distro | d('queens') }}"
 openio_repository_manage_openstack_repository: true
