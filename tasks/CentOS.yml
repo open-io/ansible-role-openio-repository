@@ -43,7 +43,7 @@
   no_log: '{{ openio_repository_no_log }}'
   tags: install
 
-# This is not setup for "unstable" releases (f.e.: '19.10/unstable', see `when` clause below)
+# This is not setup for "unstable" releases (f.e.: '20.04/unstable', see `when` clause below)
 - name: "Configure source repositories for {{ ansible_distribution }} {{ ansible_distribution_major_version }}"
   yum_repository:
     name: "openio-{{ repo.key }}-{{ repo.value.release }}-source"

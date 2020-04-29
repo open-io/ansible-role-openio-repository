@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/open-io/ansible-role-openio-repository.svg?branch=master)](https://travis-ci.org/open-io/ansible-role-openio-repository)
+[![Build Status](https://travis-ci.org/open-io/ansible-role-openio-repository.svg?branch=20.04)](https://travis-ci.org/open-io/ansible-role-openio-repository)
 # Ansible role `repository`
 
 An Ansible role for setup OpenIO's repositories (and OpenStack). Specifically, the responsibilities of this role are to:
